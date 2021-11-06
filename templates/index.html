@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+    <div class="parallax">
+        <div class="px-4 py-5 my-5 text-center">
+            <h1 class="display-5 fw-bold">Tucson Integrative Medicine</h1>
+            <div class="col-lg-6 mx-auto">
+                <h2 class="display-6 mb-4"><em>A Place to Connect</em></h2>
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                    <a class="btn btn-primary btn-lg gap-3" href="/patients">For Patients</a>
+                    <a class="btn btn-primary btn-lg px-4" href="/providers">For Providers</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-md px-4 mt-3">
+
+        {% for row in rows %}
+            <div class="row">
+                {% for practice in row %}
+                <div class="col d-flex my-3">
+                    <div class="card" style="min-width: 250px;">
+                        <img src={{ practice['image'] }} class="card-img-top" style="object-fit: cover; max-height: 150px;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ practice['name']}}</h5>
+                            <p class="card-text">{{ practice['text'] }}</p>
+                            <a href="/search" class="btn btn-primary">Search Providers</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}
