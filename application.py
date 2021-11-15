@@ -38,7 +38,6 @@ def index():
     cur.execute("SELECT name, description, image FROM practices")
 
     practices = cur.fetchall()
-    print(practices)
 
     # Split practices into rows
     rows = [practices[i: i + 2] for i in range(0, len(practices), 2)]
