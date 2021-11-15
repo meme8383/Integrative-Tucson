@@ -22,10 +22,10 @@
                 {% for practice in row %}
                 <div class="col d-flex my-3">
                     <div class="card" style="min-width: 250px;">
-                        <img src={{ practice['image'] }} class="card-img-top" style="object-fit: cover; max-height: 150px;">
+                        <img src={{ practice[2] }} class="card-img-top" style="object-fit: cover; max-height: 150px;">
                         <div class="card-body">
-                            <h5 class="card-title">{{ practice['name']}}</h5>
-                            <p class="card-text">{{ practice['text'] }}</p>
+                            <h5 class="card-title">{{ practice[0]}}</h5>
+                            <p class="card-text">{{ practice[1] }}</p>
                             <a href="/search" class="btn btn-primary">Search Providers</a>
                         </div>
                     </div>

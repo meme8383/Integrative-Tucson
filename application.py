@@ -1,4 +1,5 @@
 import csv
+import sqlite3
 
 from flask import Flask, render_template, request
 from flask_session import Session
@@ -24,13 +25,15 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
+# Connect database
+con = sqlite3.connect("inttus.db", check_same_thread=False)
+cur = con.cursor()
+
 @app.route("/")
 def index():
 
     # Get practices
-    with open("static/practices.csv") as f:
-        reader = csv.DictReader(f)
-        practices = [i for i in reader]
+    practices = list(cur.execute("SELECT * FROM practices"))
 
     # Split practices into rows
     rows = [practices[i: i + 2] for i in range(0, len(practices), 2)]
