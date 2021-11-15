@@ -1,5 +1,6 @@
 import csv
-import sqlite3
+import psycopg2
+import os
 
 from flask import Flask, render_template, request
 from flask_session import Session
@@ -26,14 +27,15 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Connect database
-con = sqlite3.connect("inttus.db", check_same_thread=False)
-cur = con.cursor()
+DATABASE_URL = os.environ['DATABASE_URL']
+conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+cur = conn.cursor()
 
 @app.route("/")
 def index():
 
     # Get practices
-    practices = list(cur.execute("SELECT * FROM practices"))
+    practices = list(cur.execute("SELECT name, description, image FROM practices"))
 
     # Split practices into rows
     rows = [practices[i: i + 2] for i in range(0, len(practices), 2)]
