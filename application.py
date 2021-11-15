@@ -35,7 +35,9 @@ cur = conn.cursor()
 def index():
 
     # Get practices
-    practices = cur.execute("SELECT name, description, image FROM practices")
+    cur.execute("SELECT name, description, image FROM practices")
+
+    practices = cur.fetchall()
     print(practices)
 
     # Split practices into rows
