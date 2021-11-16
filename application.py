@@ -35,7 +35,7 @@ cur = conn.cursor()
 def index():
 
     # Get practices
-    cur.execute("SELECT name, description, image FROM practices")
+    cur.execute("SELECT name, description, image FROM practices ORDER BY id")
 
     practices = cur.fetchall()
 
