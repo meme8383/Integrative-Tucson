@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+    <div class="container-md px-4 mt-3">
+
+        {% if providers %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Provider</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Website</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for provider in providers %}
+                        <tr>
+                            <th scope="row">{{ provider[2] }}</th>
+                            <td>{{ provider[3] }}</td>
+                            <td>{{ provider[4] }}</td>
+                            <td>{{ provider[5] }}</td>
+                            <td><a href="{{ provider[6] }}">{{ provider[6] }}</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <h1>No providers could be found</h1>
+        {% endif %}
+
+    </div>
+
+{% endblock %}

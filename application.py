@@ -35,12 +35,11 @@ cur = conn.cursor()
 def index():
 
     # Get practices
-    cur.execute("SELECT name, description, image FROM practices ORDER BY id")
-
+    cur.execute("SELECT * FROM practices ORDER BY id")
     practices = cur.fetchall()
 
     # Split practices into rows
-    rows = [practices[i: i + 2] for i in range(0, len(practices), 2)]
+    rows = split_rows(practices, 2)
 
     return render_template("index.html", rows=rows)
 
@@ -48,6 +47,22 @@ def index():
 def patients():
     return render_template("patients.html")
 
+@app.route("/practice/<int:practice_id>")
+def practice(practice_id):
+    
+    # Get providers
+    cur.execute("SELECT * FROM providers WHERE practice_id = %s", [practice_id])
+    providers = cur.fetchall()
+
+    # Replace None with empty string
+    conv = lambda i : i or ''
+    providers = [[conv(j) for j in i] for i in providers]
+
+    return render_template("practice.html", providers=providers)
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("404.html"), 404
+
+def split_rows(query, columns):
+    return [query[i:i + columns] for i in range(0, len(query), columns)]
