@@ -10,15 +10,15 @@ from tempfile import mkdtemp
 app = Flask(__name__)
 
 # Ensure templates are auto-reloaded
-# app.config["TEMPLATES_AUTO_RELOAD"] = True
+app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 # Ensure responses aren't cached
-# @app.after_request
-# def after_request(response):
-#     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-#     response.headers["Expires"] = 0
-#     response.headers["Pragma"] = "no-cache"
-#     return response
+@app.after_request
+def after_request(response):
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Expires"] = 0
+    response.headers["Pragma"] = "no-cache"
+    return response
 
 # Configure session to use filesystem (instead of signed cookies)
 # app.config["SESSION_FILE_DIR"] = mkdtemp()
@@ -59,6 +59,10 @@ def practice(practice_id):
     providers = [[conv(j) for j in i] for i in providers]
 
     return render_template("practice.html", providers=providers)
+
+@app.route("/providers")
+def providers():
+    return render_template("providers.html")
 
 @app.errorhandler(404)
 def page_not_found(e):
