@@ -1,4 +1,5 @@
 flask
 flask_session
+flask_mail
 gunicorn
 psycopg2-binary

@@ -21,7 +21,7 @@
                             <th scope="row">{{ provider[2] }}</th>
                             <td>{{ provider[3] }}</td>
                             <td>{{ provider[4] }}</td>
-                            <td>{{ provider[5] }}</td>
+                            <td><a href="tel:{{ provider[5] }}">{{ provider[5] | phone }}</a></td>
                             <td><a href="{{ provider[6] }}">{{ provider[6] }}</a></td>
                         </tr>
                     {% endfor %}

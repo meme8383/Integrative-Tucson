@@ -4,6 +4,7 @@ import os
 
 from flask import Flask, render_template, request
 from flask_session import Session
+from flask_mail import Mail, Message
 
 from tempfile import mkdtemp
 
@@ -11,6 +12,16 @@ app = Flask(__name__)
 
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
+
+# Config email
+DEFAULT_EMAIL = os.environ["MAIL_DEFAULT_SENDER"]
+app.config["MAIL_DEFAULT_SENDER"] = DEFAULT_EMAIL
+app.config["MAIL_PASSWORD"] = os.environ["MAIL_PASSWORD"]
+app.config["MAIL_PORT"] = 587
+app.config["MAIL_SERVER"] = "smtp.gmail.com"
+app.config["MAIL_USE_TLS"] = True
+app.config["MAIL_USERNAME"] = os.environ["MAIL_USERNAME"]
+mail = Mail(app)
 
 # Ensure responses aren't cached
 @app.after_request
@@ -63,6 +74,29 @@ def practice(practice_id):
 @app.route("/providers")
 def providers():
     return render_template("providers.html")
+    
+@app.route("/contact", methods=["GET", "POST"])
+def contact():
+    if request.method == "POST":
+        name = request.form.get("name")
+        email = request.form.get("email")
+        subject = request.form.get("subject")
+        body = request.form.get("message")
+        if not name or not email or not subject or not body:
+            return render_template("contact.html"), 403
+        
+
+        message_body = f"Name: {name}\nEmail: {email}\nSubject: {subject}\nMessage: {body}"
+        message = Message("Your message has been sent!", body=message_body, recipients=[email])
+        mail.send(message)
+
+        message = Message(f"New message from: {name}", body=message_body, recipients=[DEFAULT_EMAIL])
+        mail.send(message)
+
+        return render_template("success.html")
+
+    else:
+        return render_template("contact.html")
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -70,3 +104,9 @@ def page_not_found(e):
 
 def split_rows(query, columns):
     return [query[i:i + columns] for i in range(0, len(query), columns)]
+
+# Custom filter
+def phone(number):
+    number = str(number)
+    return f"({number[0:3]}) {number[3:6]}-{number[6:10]}"
+app.jinja_env.filters["phone"] = phone

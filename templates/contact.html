@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block title %}Contact - {% endblock %}
+
+{% block main %}
+    <div class="container">
+        <h1 class="display-5 mt-2 mb-4 text-center">Contact Us</h1>
+
+        <form class="row g-3 mt-4 needs-validation" action="/contact" method="post" novalidate>
+            <div class="col-md-6">
+                <label for="FormNameInput" class="form-label">Name</label>
+                <input type="text" id="FormNameInput" name="name" autofocus class="form-control" required>
+                <div class="invalid-feedback">
+                    This field is required.
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="FormEmailInput" class="form-label">Email Address</label>
+                <input type="email" id="FormEmailInput" name="email" class="form-control" placeholder="name@example.com" required>
+                <div class="invalid-feedback">
+                    Please provide a valid email address.
+                </div>
+            </div>
+            <div class="col-12">
+                <label for="FormSubjectInput" class="form-label">Subject</label>
+                <input type="text" id="FormSubjectInput" name="subject" class="form-control" required>
+                <div class="invalid-feedback">
+                    This field is required.
+                </div>
+            </div>
+            <div class="col-12">
+                <label for="FormBodyInput" class="form-label">Message</label>
+                <textarea id="FormBodyInput" name="message" class="form-control" rows="3" required></textarea>
+                <div class="invalid-feedback">
+                    This field is required.
+                </div>
+            </div>
+            <div class="col-12">
+                <button type="submit" value="Message" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+    
+    <script>
+        (function () {
+            'use strict'
+
+            var forms = document.querySelectorAll('.needs-validation')
+
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+
+{% endblock %}
