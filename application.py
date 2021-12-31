@@ -1,4 +1,3 @@
-import csv
 import psycopg2
 import os
 
@@ -58,11 +57,17 @@ def index():
 def patients():
     return render_template("patients.html")
 
-@app.route("/practice/<int:practice_id>")
-def practice(practice_id):
-    
-    # Get providers
-    cur.execute("SELECT * FROM providers WHERE practice_id = %s", [practice_id])
+@app.route("/search")
+def search():
+
+    # Get filter, return all if none
+    practice_id = request.args.get("practice")
+    if practice_id:
+        cur.execute("SELECT * FROM providers WHERE practice_id = %s", [practice_id])
+        print(1)
+    else:
+        cur.execute("SELECT * FROM providers")
+
     providers = cur.fetchall()
 
     # Replace None with empty string
