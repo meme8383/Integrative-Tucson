@@ -4,31 +4,38 @@
 
 {% block main %}
     <div class="container">
-        <h1 class="display-5 mt-2 mb-4 text-center">Contact Us</h1>
+        <h1 class="display-5 mt-2 mb-2 text-center">Contact Us</h1>
+        <p class="lead text-center">Fields marked with a <span style="color:red;">*</span> are required.</p>
 
-        <form class="row g-3 mt-4 needs-validation" action="/contact" method="post" novalidate>
-            <div class="col-md-6">
+        <div id="loading" class="text-center" style="display: none;">
+            <div id="loading" class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+
+        <form class="row g-3 mt-4 needs-validation" id="form1" action="/contact" method="post" novalidate>
+            <div class="col-md-6 form-group required">
                 <label for="FormNameInput" class="form-label">Name</label>
                 <input type="text" id="FormNameInput" name="name" autofocus class="form-control" required>
                 <div class="invalid-feedback">
                     This field is required.
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 form-group required">
                 <label for="FormEmailInput" class="form-label">Email Address</label>
                 <input type="email" id="FormEmailInput" name="email" class="form-control" placeholder="name@example.com" required>
                 <div class="invalid-feedback">
                     Please provide a valid email address.
                 </div>
             </div>
-            <div class="col-12">
+            <div class="col-12 form-group required">
                 <label for="FormSubjectInput" class="form-label">Subject</label>
                 <input type="text" id="FormSubjectInput" name="subject" class="form-control" required>
                 <div class="invalid-feedback">
                     This field is required.
                 </div>
             </div>
-            <div class="col-12">
+            <div class="col-12 form-group required">
                 <label for="FormBodyInput" class="form-label">Message</label>
                 <textarea id="FormBodyInput" name="message" class="form-control" rows="3" required></textarea>
                 <div class="invalid-feedback">
@@ -53,6 +60,9 @@
                         if (!form.checkValidity()) {
                             event.preventDefault()
                             event.stopPropagation()
+                        } else {
+                            document.getElementById("form1").style.display = "none";
+                            document.getElementById("loading").style.display = "block";
                         }
 
                         form.classList.add('was-validated')

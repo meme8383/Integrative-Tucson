@@ -1,0 +1,117 @@
+{% extends "layout.html" %}
+
+{% block title %}Request - {% endblock %}
+
+{% block main %}
+
+    <div class="container">
+        <h1 class="display-5 mt-2 mb-2 text-center">Request to be added</h1>
+        <p class="lead text-center">Please provide as much information as possible. Fields marked with a <span style="color:red;">*</span> are required.</p>
+
+        <div id="loading" class="text-center" style="display: none;">
+            <div id="loading" class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+
+        <form class="row g-3 mt-4 needs-validation" id="form1" action="/providers/request" method="post" novalidate>
+            <div class="col-md-6 form-group required">
+                <label for="FormEmailInput" class="form-label">Email Address</label>
+                <input type="email" id="FormEmailInput" name="email" class="form-control" placeholder="name@example.com" required>
+                <div class="invalid-feedback">
+                    Please provide a valid email address.
+                </div>
+            </div>
+            <div class="col-md-6 mt-4">
+                <p class="lead text-muted mb-0">Your email will only be used for us to contact you and will not be displayed publicly.</p>
+            </div>
+
+            <div class="col-md-6 form-group required">
+                <label for="FormPracticeInput" class="form-label">Practice</label>
+                <select name="practice" id="FormPracticeInput" class="form-select form-control" onchange="Practices(this.value)" required>
+                    <option selected disabled value="">Click to Select</option>
+                    {% for practice in practices %}
+                        <option value="{{ practice[0] }}">{{ practice[1] }}</option>
+                    {% endfor %}
+                    <option value=0>Other</option>
+                </select>
+            </div>
+            <div class="col-md-6 form-group required">
+                <div id="OtherInput">
+                </div>
+            </div>
+
+            <div class="col-md-6 form-group required">
+                <label for="FormNameInput" class="form-label">Name</label>
+                <input type="text" id="FormNameInput" name="name" class="form-control" required>
+                <div class="invalid-feedback">
+                    This field is required.
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label for="FormProviderInput" class="form-label">Provider</label>
+                <input type="text" id="FormProviderInput" name="provider" class="form-control">
+            </div>
+
+            <div class="col-md-6">
+                <label for="FormAddressInput" class="form-label">Address</label>
+                <input type="text" id="FormAddressInput" name="address" class="form-control">
+            </div>
+            <div class="col-md-6">
+                <label for="FormPhoneInput" class="form-label">Phone</label>
+                <input type="tel" id="FormPhoneInput" name="phone" class="form-control" pattern="[0-9]{10}" placeholder="ex. 1234567890">
+                <div class="invalid-feedback">
+                    Please provide a valid phone number. Format: 1234567890
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <label for="FormWebsiteInput" class="form-label">Website</label>
+                <input type="url" id="FormWebsiteInput" name="website" class="form-control" placeholder="https://example.com">
+            </div>
+            <div class="col-md-6">
+                <label for="NoteInput" class="form-label">Notes</label>
+                <textarea id="NoteInput" name="note" class="form-control" rows=1></textarea>
+            </div>
+
+            <div class="col-12">
+                <button type="submit" value="Request" class="btn btn-primary" onclick="Loading();">Submit</button>
+            </div>
+        </form>
+    </div>
+
+<script>
+    (function () {
+        'use strict'
+
+        var forms = document.querySelectorAll('.needs-validation')
+
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    } else {
+                        document.getElementById("form1").style.display = "none";
+                        document.getElementById("loading").style.display = "block";
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+
+    function Practices(val) {
+        if(val==0)
+            document.getElementById("OtherInput").innerHTML=`<label for="FormPracticeOtherInput" class="form-label">Practice</label>
+            <input type="text" id="FormPracticeOtherInput" name="custom_practice" placeholder="Please type..." class="form-control" required>
+            <div class="invalid-feedback">
+                This field is required.
+            </div>`
+        else document.getElementById("OtherInput").innerHTML=''
+    }
+</script>
+
+
+{% endblock %}

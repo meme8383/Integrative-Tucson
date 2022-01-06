@@ -25,3 +25,8 @@
     text-align: center;
     margin-top: 50px;
 }
+
+.form-group.required .form-label:after {
+    content:"*";
+    color:red;
+  }

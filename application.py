@@ -1,5 +1,6 @@
 import psycopg2
 import os
+import datetime
 
 from flask import Flask, render_template, request
 from flask_session import Session
@@ -98,14 +99,56 @@ def contact():
         message = Message(f"New message from: {name}", body=message_body, recipients=[DEFAULT_EMAIL])
         mail.send(message)
 
-        return render_template("success.html")
+        return render_template("success.html", message="Your response has been recorded!")
 
     else:
         return render_template("contact.html")
 
+@app.route("/providers/request", methods=["GET", "POST"])
+def request_submit():
+    if request.method == "POST":
+        print(request.form)
+        # if len(request.form) == 8:
+        #     email, practice_id, name, provider, address, phone, website, note = request.form.items()
+        #     custom_practice = (None, None)
+        # else:
+        #     email, practice_id, custom_practice, name, provider, address, phone, website, note = request.form
+
+        values = [int(request.form.get("practice")), request.form.get("name"), request.form.get("provider"), request.form.get("address"), 
+        int(request.form.get("phone")) if request.form.get("phone") else None, request.form.get("website"), request.form.get("custom_practice"),
+        request.form.get("email"), request.form.get("note"), datetime.datetime.now()]
+
+        conv = lambda i : i or None
+        clean_values = [conv(i) for i in values]
+
+        try:
+            cur.execute("""INSERT INTO requests (practice_id, name, provider, address, phone, website, custom_practice, email, note, submitted_at)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""", clean_values)
+            conn.commit()
+        except:
+            conn.rollback()
+            raise
+
+        message = Message("Request Received", body="We have received your request to be added.", recipients=[request.form.get("email")])
+        mail.send(message)
+
+        message = Message("New Request", body=str(clean_values), recipients=[DEFAULT_EMAIL])
+        mail.send(message)
+
+        return render_template("success.html", message="Your request has been sent!")
+    else:
+        cur.execute("SELECT id, name FROM practices")
+        practices = cur.fetchall()
+
+        return render_template("request.html", practices=practices)
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("404.html"), 404
+
+@app.errorhandler(503)
+def page_unavailable(e):
+    return render_template("503.html"), 503
 
 def split_rows(query, columns):
     return [query[i:i + columns] for i in range(0, len(query), columns)]
