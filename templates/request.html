@@ -27,7 +27,7 @@
             </div>
 
             <div class="col-md-6 form-group required">
-                <label for="FormPracticeInput" class="form-label">Practice</label>
+                <label for="FormPracticeInput" class="form-label">Specialty</label>
                 <select name="practice" id="FormPracticeInput" class="form-select form-control" onchange="Practices(this.value)" required>
                     <option selected disabled value="">Click to Select</option>
                     {% for practice in practices %}
@@ -42,14 +42,14 @@
             </div>
 
             <div class="col-md-6 form-group required">
-                <label for="FormNameInput" class="form-label">Name</label>
+                <label for="FormNameInput" class="form-label">Practice Name</label>
                 <input type="text" id="FormNameInput" name="name" class="form-control" required>
                 <div class="invalid-feedback">
                     This field is required.
                 </div>
             </div>
             <div class="col-md-6">
-                <label for="FormProviderInput" class="form-label">Provider</label>
+                <label for="FormProviderInput" class="form-label">Provider Name</label>
                 <input type="text" id="FormProviderInput" name="provider" class="form-control">
             </div>
 
@@ -104,7 +104,7 @@
 
     function Practices(val) {
         if(val==0)
-            document.getElementById("OtherInput").innerHTML=`<label for="FormPracticeOtherInput" class="form-label">Practice</label>
+            document.getElementById("OtherInput").innerHTML=`<label for="FormPracticeOtherInput" class="form-label">Add a Specialty</label>
             <input type="text" id="FormPracticeOtherInput" name="custom_practice" placeholder="Please type..." class="form-control" required>
             <div class="invalid-feedback">
                 This field is required.

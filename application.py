@@ -14,6 +14,7 @@ app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 # Config email
+CONTACT_EMAIL = "integrativetucson@gmail.com"
 DEFAULT_EMAIL = os.environ["MAIL_DEFAULT_SENDER"]
 app.config["MAIL_DEFAULT_SENDER"] = DEFAULT_EMAIL
 app.config["MAIL_PASSWORD"] = os.environ["MAIL_PASSWORD"]
@@ -96,7 +97,7 @@ def contact():
         message = Message("Your message has been sent!", body=message_body, recipients=[email])
         mail.send(message)
 
-        message = Message(f"New message from: {name}", body=message_body, recipients=[DEFAULT_EMAIL])
+        message = Message(f"New message from: {name}", body=message_body, recipients=[CONTACT_EMAIL])
         mail.send(message)
 
         return render_template("success.html", message="Your response has been recorded!")
@@ -129,10 +130,11 @@ def request_submit():
             conn.rollback()
             raise
 
-        message = Message("Request Received", body="We have received your request to be added.", recipients=[request.form.get("email")])
+        message = Message("Request Received", body="We have received your request to be added. We will be in contact with you soon. Thank you for your interest.\n\nFrom AIHM Tucson Chapter Team",
+                          recipients=[request.form.get("email")])
         mail.send(message)
 
-        message = Message("New Request", body=str(clean_values), recipients=[DEFAULT_EMAIL])
+        message = Message("New Request", body=str(clean_values), recipients=[CONTACT_EMAIL])
         mail.send(message)
 
         return render_template("success.html", message="Your request has been sent!")
