@@ -29,4 +29,9 @@
 .form-group.required .form-label:after {
     content:"*";
     color:red;
-  }
+}
+
+.card-icon {
+    font-size: 2rem;
+    color: cornflowerblue;
+}

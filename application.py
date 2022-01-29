@@ -47,7 +47,9 @@ cur = conn.cursor()
 def index():
 
     # Get practices
-    cur.execute("SELECT * FROM practices ORDER BY id")
+    cur.execute("""SELECT * FROM practices
+                WHERE practices.id IN (SELECT practice_id FROM providers)
+                ORDER BY id""")
     practices = cur.fetchall()
 
     # Split practices into rows
@@ -66,17 +68,21 @@ def search():
     practice_id = request.args.get("practice")
     if practice_id:
         cur.execute("SELECT * FROM providers WHERE practice_id = %s", [practice_id])
-        print(1)
+        providers = cur.fetchall()
+        cur.execute("SELECT name from practices WHERE id = %s", [practice_id])
+        practice = cur.fetchone()[0]
     else:
         cur.execute("SELECT * FROM providers")
-
-    providers = cur.fetchall()
+        providers = cur.fetchall()
+        practice = None
 
     # Replace None with empty string
     conv = lambda i : i or ''
     providers = [[conv(j) for j in i] for i in providers]
 
-    return render_template("practice.html", providers=providers)
+    rows = split_rows(providers, 3)
+
+    return render_template("practice.html", rows=rows, practice = practice)
 
 @app.route("/providers")
 def providers():
