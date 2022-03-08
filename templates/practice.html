@@ -48,14 +48,14 @@
                                     <div class="border-top text-center mx-2">
                                         <a href="{{ provider[6] }}" target="_blank" rel="noopener noreferrer"><p class="my-1">{{ provider[6] }}</p></a>
                                         <p class="my-1">{{ provider[5]|phone }}</p>
-                                        <p class="my-1">email@email.com</p>
+                                        <p class="my-1">{{ provider[7] }}</p>
                                         <p class="my-1">{{ provider[4] }}</p>
                                     </div>
                                     <div class="row border-top text-center mt-auto mx-2">
                                         <div class="col-3"><a href="https://www.google.com/maps/search/?api=1&query={{ provider[2].replace(' ','+') + ', ' + provider[4].replace(' ','+') }}" target="_blank" rel="noopener noreferrer"><i class="card-icon bi bi-geo-alt"></i></a></div>
                                         <div class="col-3"><a href="{{ provider[6] }}" target="_blank" rel="noopener noreferrer"><i class="card-icon bi bi-globe2"></i></a></div>
                                         <div class="col-3"><a href="tel:{{ provider[5] }}"><i class="card-icon bi bi-telephone"></i></a></div>
-                                        <div class="col-3"><a href="mailto:email@email.com"><i class="card-icon bi bi-envelope"></i></a></div>
+                                        <div class="col-3"><a href="mailto:{{ provider[7] }}"><i class="card-icon bi bi-envelope"></i></a></div>
                                     </div>
                                 </div>
                             </div>
