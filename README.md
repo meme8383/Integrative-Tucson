@@ -1,4 +1,4 @@
-**This project is made public as a result of the removal of Herouku's Free Tier and is hereby Deprecated**
+**This project is made public as a result of the removal of Herouku's Free Tier and is hereby deprecated.**
 
 # Integrative-Tucson
 
