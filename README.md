@@ -1,5 +1,3 @@
-**This project is made public as a result of the removal of Herouku's Free Tier and is hereby deprecated.**
-
 # Integrative-Tucson
 
 A simple web application built in Flask connecting integrative medicine providers in Tucson.
